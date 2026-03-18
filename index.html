@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GohnWood</title>
+    <meta name="description" content="GohnWood. Coming Summer 2026.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --navy: #1e2a4a;
+            --cream: #f0ebe3;
+            --cream-dim: #f0ebe380;
+            --cream-faint: #f0ebe325;
+            --gold: #c9a84c;
+        }
+
+        body {
+            background: var(--navy);
+            color: var(--cream);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Subtle radial glow */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -55%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(ellipse, #2a3a6215 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .wordmark {
+            font-family: 'EB Garamond', serif;
+            font-size: clamp(48px, 10vw, 96px);
+            letter-spacing: -0.02em;
+            line-height: 1;
+            margin-bottom: 48px;
+            color: var(--cream);
+            font-weight: 500;
+        }
+
+        .rule {
+            width: 60px;
+            height: 1px;
+            background: var(--cream-faint);
+            margin: 0 auto 48px;
+        }
+
+        .tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(12px, 2vw, 15px);
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--cream-dim);
+        }
+
+        /* Gentle fade-in on load */
+        .container {
+            animation: fadeUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .rule {
+            animation: fadeUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+            opacity: 0;
+        }
+
+        .tagline {
+            animation: fadeUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="wordmark">GohnWood</div>
+        <div class="rule"></div>
+        <div class="tagline">Coming Summer 2026</div>
+    </div>
+</body>
+</html>
