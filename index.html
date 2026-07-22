@@ -4,44 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GohnWood</title>
-    <meta name="description" content="GohnWood. Coming Summer 2026.">
+    <meta name="description" content="GohnWood. Coming Fall 2026.">
+    <meta property="og:title" content="GohnWood">
+    <meta property="og:description" content="Coming Fall 2026">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gohnwood.com">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231e2a4a'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23c9a84c' text-anchor='middle'%3EG%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --navy: #1e2a4a;
+            --navy-deep: #182240;
             --cream: #f0ebe3;
-            --cream-dim: #f0ebe380;
-            --cream-faint: #f0ebe325;
+            --cream-dim: rgba(240, 235, 227, 0.55);
+            --cream-faint: rgba(240, 235, 227, 0.18);
             --gold: #c9a84c;
+            --gold-dim: rgba(201, 168, 76, 0.65);
+            --enter: cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         body {
-            background: var(--navy);
+            background: linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
             color: var(--cream);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
             min-height: 100vh;
+            min-height: 100svh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding-bottom: 6vh; /* optical center sits above geometric center */
             overflow: hidden;
             position: relative;
         }
 
-        /* Subtle radial glow */
+        /* Subtle radial glow behind the wordmark */
         body::before {
             content: '';
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -55%);
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(ellipse, #2a3a6215 0%, transparent 70%);
+            width: 820px;
+            height: 820px;
+            background: radial-gradient(ellipse, rgba(42, 58, 98, 0.35) 0%, transparent 68%);
             pointer-events: none;
         }
 
@@ -49,67 +59,76 @@
             text-align: center;
             position: relative;
             z-index: 1;
+            padding: 0 24px;
         }
 
         .wordmark {
-            font-family: 'EB Garamond', serif;
-            font-size: clamp(48px, 10vw, 96px);
-            letter-spacing: -0.02em;
-            line-height: 1;
-            margin-bottom: 48px;
-            color: var(--cream);
+            font-family: 'EB Garamond', Georgia, serif;
+            font-optical-sizing: auto;
+            font-size: clamp(52px, 11vw, 104px);
             font-weight: 500;
+            letter-spacing: -0.015em; /* negative tracking at display size */
+            line-height: 1.02;
+            color: var(--cream);
         }
 
         .rule {
-            width: 60px;
+            width: 64px;
             height: 1px;
-            background: var(--cream-faint);
-            margin: 0 auto 48px;
+            background: var(--gold-dim);
+            margin: 44px auto;
+            transform-origin: center;
         }
 
         .tagline {
-            font-family: 'Inter', sans-serif;
-            font-size: clamp(12px, 2vw, 15px);
+            font-size: clamp(11px, 1.8vw, 14px);
             font-weight: 300;
-            letter-spacing: 0.25em;
+            letter-spacing: 0.32em; /* wide positive tracking at caption size */
+            text-indent: 0.32em;   /* re-center: offsets trailing tracking space */
             text-transform: uppercase;
             color: var(--cream-dim);
         }
 
-        /* Gentle fade-in on load */
-        .container {
-            animation: fadeUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 0;
+        .tagline .year {
+            color: var(--gold-dim);
+            font-weight: 400;
         }
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
+        /* Staggered entrance — opacity + small rise, strong ease-out */
+        .wordmark, .rule, .tagline {
+            opacity: 0;
+            animation: rise 1.4s var(--enter) forwards;
+        }
+        .rule    { animation-name: draw; animation-delay: 0.25s; }
+        .tagline { animation-delay: 0.45s; }
+
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* The rule draws outward from center instead of rising */
+        @keyframes draw {
+            from { opacity: 0; transform: scaleX(0.2); }
+            to   { opacity: 1; transform: scaleX(1); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .wordmark, .rule, .tagline {
+                animation: fade 0.4s ease forwards;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            @keyframes fade {
+                from { opacity: 0; }
+                to   { opacity: 1; }
             }
-        }
-
-        .rule {
-            animation: fadeUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-            opacity: 0;
-        }
-
-        .tagline {
-            animation: fadeUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
-            opacity: 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="wordmark">GohnWood</div>
-        <div class="rule"></div>
-        <div class="tagline">Coming Summer 2026</div>
+        <h1 class="wordmark">GohnWood</h1>
+        <div class="rule" aria-hidden="true"></div>
+        <p class="tagline">Coming <span class="year">Fall 2026</span></p>
     </div>
 </body>
 </html>
