@@ -330,14 +330,23 @@
     const ctx = methodCanvas.getContext('2d');
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const cssW = methodCanvas.clientWidth || 640;
-    const cssH = Math.round(cssW * 0.53);
+    const isStackedBookends = mode === 'bookends' && cssW < 520;
+    const isNarrow = cssW < 440;
+    const cssH = isStackedBookends
+      ? 336
+      : Math.max(220, Math.round(cssW * 0.53));
     methodCanvas.width = Math.round(cssW * dpr);
     methodCanvas.height = Math.round(cssH * dpr);
+    methodCanvas.style.height = cssH + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     const w = cssW;
     const h = cssH;
-    const pad = { top: 24, right: 24, bottom: 38, left: 42 };
+    const pad = isStackedBookends
+      ? { top: 16, right: 14, bottom: 34, left: 14 }
+      : isNarrow
+        ? { top: 22, right: 14, bottom: 34, left: 36 }
+        : { top: 24, right: 24, bottom: 38, left: 42 };
     const plotW = w - pad.left - pad.right;
     const plotH = h - pad.top - pad.bottom;
 
@@ -416,14 +425,20 @@
       ctx.fill();
 
       // Labels
+      const lblFont = isNarrow ? '500 8.5px "JetBrains Mono", monospace' : '500 10px "JetBrains Mono", monospace';
       ctx.fillStyle = '#fbf8f2';
-      ctx.font = '500 10px "JetBrains Mono", monospace';
+      ctx.font = lblFont;
+      ctx.textAlign = 'left';
       ctx.fillText('SUBJECT QUERY', subjX + 8, pad.top + 18);
 
       ctx.fillStyle = '#9a9ea2';
+      ctx.textAlign = 'left';
       ctx.fillText('LOWER TAIL', pad.left, h - 14);
-      ctx.fillText('MARKET MEDIAN', pad.left + plotW * 0.43, h - 14);
-      ctx.fillText('UPPER TAIL', w - pad.right - 64, h - 14);
+      ctx.textAlign = 'center';
+      ctx.fillText('MARKET MEDIAN', pad.left + plotW * 0.5, h - 14);
+      ctx.textAlign = 'right';
+      ctx.fillText('UPPER TAIL', w - pad.right, h - 14);
+      ctx.textAlign = 'left';
     } else if (mode === 'cohort') {
       // 1.00 Equity parity horizontal line
       const midY = pad.top + plotH * 0.5;
@@ -470,17 +485,21 @@
         ctx.fill();
       }
 
+      const lblFont = isNarrow ? '500 8.5px "JetBrains Mono", monospace' : '500 10px "JetBrains Mono", monospace';
       ctx.fillStyle = 'rgba(34, 36, 38, 0.85)';
       ctx.fillRect(pad.left + 2, midY - bandH / 2 - 18, 76, 14);
       ctx.fillStyle = '#fbf8f2';
-      ctx.font = '500 10px "JetBrains Mono", monospace';
+      ctx.font = lblFont;
+      ctx.textAlign = 'left';
       ctx.fillText('1.00 PARITY', pad.left + 6, midY - bandH / 2 - 7);
       ctx.fillStyle = '#9a9ea2';
       ctx.fillText('SMALLER ASSETS', pad.left, h - 14);
-      ctx.fillText('INSTITUTIONAL ASSETS', w - pad.right - 130, h - 14);
-      ctx.fillText('1.30', 8, pad.top + 8);
-      ctx.fillText('1.00', 8, midY + 3);
-      ctx.fillText('0.70', 8, pad.top + plotH);
+      ctx.textAlign = 'right';
+      ctx.fillText('INSTITUTIONAL ASSETS', w - pad.right, h - 14);
+      ctx.textAlign = 'left';
+      ctx.fillText('1.30', 6, pad.top + 8);
+      ctx.fillText('1.00', 6, midY + 3);
+      ctx.fillText('0.70', 6, pad.top + plotH);
     } else if (mode === 'bookends') {
       // Three architectural stages connected by precision rails
       const stages = [
@@ -504,51 +523,101 @@
         }
       ];
 
-      const gap = Math.max(14, plotW * 0.05);
-      const boxW = (plotW - gap * 2) / 3;
-      const boxH = plotH * 0.72;
-      const boxY = pad.top + (plotH - boxH) / 2;
+      if (isStackedBookends) {
+        // Mobile vertical stack: three full-width cards with vertical gold rails
+        const vGap = 16;
+        const cardH = Math.floor((plotH - vGap * 2) / 3);
+        const railX = pad.left + plotW / 2;
 
-      // Connecting rails
-      const railY = boxY + boxH / 2;
-      ctx.strokeStyle = 'rgba(176, 138, 71, 0.55)';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(pad.left + boxW, railY);
-      ctx.lineTo(pad.left + boxW + gap * ease, railY);
-      ctx.moveTo(pad.left + boxW * 2 + gap, railY);
-      ctx.lineTo(pad.left + boxW * 2 + gap + gap * ease, railY);
-      ctx.stroke();
-
-      stages.forEach((st, idx) => {
-        const bx = pad.left + idx * (boxW + gap);
-        ctx.fillStyle = st.gold ? 'rgba(176, 138, 71, 0.14)' : 'rgba(232, 224, 209, 0.06)';
-        ctx.strokeStyle = st.gold ? '#b08a47' : 'rgba(232, 224, 209, 0.32)';
-        ctx.lineWidth = st.gold ? 1.5 : 1;
-
+        // Vertical connecting rails
+        ctx.strokeStyle = 'rgba(176, 138, 71, 0.6)';
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
-        ctx.rect(bx, boxY, boxW, boxH);
-        ctx.fill();
+        ctx.moveTo(railX, pad.top + cardH);
+        ctx.lineTo(railX, pad.top + cardH + vGap * ease);
+        ctx.moveTo(railX, pad.top + cardH * 2 + vGap);
+        ctx.lineTo(railX, pad.top + cardH * 2 + vGap + vGap * ease);
         ctx.stroke();
 
-        ctx.fillStyle = st.gold ? '#c59f5b' : '#9a9ea2';
-        ctx.font = '500 9px "JetBrains Mono", monospace';
-        ctx.fillText(st.code, bx + 12, boxY + 22);
+        stages.forEach((st, idx) => {
+          const by = pad.top + idx * (cardH + vGap);
+          ctx.fillStyle = st.gold ? 'rgba(176, 138, 71, 0.14)' : 'rgba(232, 224, 209, 0.06)';
+          ctx.strokeStyle = st.gold ? '#b08a47' : 'rgba(232, 224, 209, 0.32)';
+          ctx.lineWidth = st.gold ? 1.5 : 1;
 
-        ctx.fillStyle = '#fbf8f2';
-        ctx.font = '400 13px Optima, Georgia, serif';
-        ctx.fillText(st.title, bx + 12, boxY + 44);
+          ctx.beginPath();
+          ctx.rect(pad.left, by, plotW, cardH);
+          ctx.fill();
+          ctx.stroke();
 
-        ctx.fillStyle = 'rgba(232, 224, 209, 0.78)';
-        ctx.font = '400 10.5px Georgia, serif';
-        st.lines.forEach((ln, li) => {
-          ctx.fillText('\u00b7 ' + ln, bx + 12, boxY + 72 + li * 20);
+          ctx.textAlign = 'left';
+          ctx.fillStyle = st.gold ? '#c59f5b' : '#9a9ea2';
+          ctx.font = '500 9px "JetBrains Mono", monospace';
+          ctx.fillText(st.code, pad.left + 12, by + 20);
+
+          ctx.fillStyle = '#fbf8f2';
+          ctx.font = '400 14px Optima, Georgia, serif';
+          ctx.fillText(st.title, pad.left + 12, by + 40);
+
+          ctx.fillStyle = 'rgba(232, 224, 209, 0.8)';
+          ctx.font = '400 10.5px Georgia, serif';
+          const summary = st.lines.join('  \u00b7  ');
+          ctx.fillText(summary, pad.left + 12, by + 62, plotW - 24);
         });
-      });
 
-      ctx.fillStyle = '#9a9ea2';
-      ctx.font = '500 10px "JetBrains Mono", monospace';
-      ctx.fillText('ZERO AI JUDGMENT \u00b7 FULL DOCUMENTARY AUDIT TRAIL', pad.left, h - 14);
+        ctx.fillStyle = '#9a9ea2';
+        ctx.font = '500 8.5px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('ZERO AI JUDGMENT \u00b7 FULL DOCUMENTARY AUDIT TRAIL', w / 2, h - 12, w - 20);
+        ctx.textAlign = 'left';
+      } else {
+        const gap = Math.max(14, plotW * 0.05);
+        const boxW = (plotW - gap * 2) / 3;
+        const boxH = plotH * 0.72;
+        const boxY = pad.top + (plotH - boxH) / 2;
+
+        // Connecting rails
+        const railY = boxY + boxH / 2;
+        ctx.strokeStyle = 'rgba(176, 138, 71, 0.55)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(pad.left + boxW, railY);
+        ctx.lineTo(pad.left + boxW + gap * ease, railY);
+        ctx.moveTo(pad.left + boxW * 2 + gap, railY);
+        ctx.lineTo(pad.left + boxW * 2 + gap + gap * ease, railY);
+        ctx.stroke();
+
+        stages.forEach((st, idx) => {
+          const bx = pad.left + idx * (boxW + gap);
+          ctx.fillStyle = st.gold ? 'rgba(176, 138, 71, 0.14)' : 'rgba(232, 224, 209, 0.06)';
+          ctx.strokeStyle = st.gold ? '#b08a47' : 'rgba(232, 224, 209, 0.32)';
+          ctx.lineWidth = st.gold ? 1.5 : 1;
+
+          ctx.beginPath();
+          ctx.rect(bx, boxY, boxW, boxH);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.textAlign = 'left';
+          ctx.fillStyle = st.gold ? '#c59f5b' : '#9a9ea2';
+          ctx.font = '500 9px "JetBrains Mono", monospace';
+          ctx.fillText(st.code, bx + 12, boxY + 22, boxW - 20);
+
+          ctx.fillStyle = '#fbf8f2';
+          ctx.font = '400 13px Optima, Georgia, serif';
+          ctx.fillText(st.title, bx + 12, boxY + 44, boxW - 20);
+
+          ctx.fillStyle = 'rgba(232, 224, 209, 0.78)';
+          ctx.font = '400 10.5px Georgia, serif';
+          st.lines.forEach((ln, li) => {
+            ctx.fillText('\u00b7 ' + ln, bx + 12, boxY + 72 + li * 20, boxW - 20);
+          });
+        });
+
+        ctx.fillStyle = '#9a9ea2';
+        ctx.font = '500 10px "JetBrains Mono", monospace';
+        ctx.fillText('ZERO AI JUDGMENT \u00b7 FULL DOCUMENTARY AUDIT TRAIL', pad.left, h - 14);
+      }
     }
   }
 
