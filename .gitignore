@@ -1,0 +1,5 @@
+# Local-only documentation and agent notes (never push to public repo)
+CLAUDE.md
+SPEC.md
+DEVLOG.md
+.DS_Store
