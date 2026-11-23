@@ -1,134 +1,662 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GohnWood</title>
-    <meta name="description" content="GohnWood. October 1, 2026.">
-    <meta property="og:title" content="GohnWood">
-    <meta property="og:description" content="October 1, 2026">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gohnwood.com">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231e2a4a'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23c9a84c' text-anchor='middle'%3EG%3C/text%3E%3C/svg%3E">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GohnWood | Property. Intelligence. Standards.</title>
+  <meta name="description" content="GohnWood is a national real estate valuation, litigation support, appraisal review, and taxing-authority advisory firm led by Joshua W Wood JD MAI and Justin C Gohn CRE MAI. Based in Austin and Philadelphia.">
 
-        :root {
-            --navy: #1e2a4a;
-            --navy-deep: #182240;
-            --cream: #f0ebe3;
-            --cream-dim: rgba(240, 235, 227, 0.55);
-            --cream-faint: rgba(240, 235, 227, 0.18);
-            --gold: #c9a84c;
-            --gold-dim: rgba(201, 168, 76, 0.65);
-            --enter: cubic-bezier(0.23, 1, 0.32, 1);
-        }
+  <!-- Open Graph -->
+  <meta property="og:title" content="GohnWood | Property. Intelligence. Standards.">
+  <meta property="og:description" content="Real estate valuation, expert witness testimony, appraisal review, and front-end group valuation for taxing authorities. Results you don't just trust, but understand.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://gohnwood.com">
+  <meta property="og:image" content="https://gohnwood.com/assets/emblem.png">
 
-        body {
-            background: linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
-            color: var(--cream);
-            font-family: 'Inter', system-ui, sans-serif;
-            min-height: 100vh;
-            min-height: 100svh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding-bottom: 6vh; /* optical center sits above geometric center */
-            overflow: hidden;
-            position: relative;
-        }
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/emblem.png">
 
-        /* Subtle radial glow behind the wordmark */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -55%);
-            width: 820px;
-            height: 820px;
-            background: radial-gradient(ellipse, rgba(42, 58, 98, 0.35) 0%, transparent 68%);
-            pointer-events: none;
-        }
+  <!-- Webfont fallbacks for Optima and Georgia on non-macOS systems -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Belleza&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
 
-        .container {
-            text-align: center;
-            position: relative;
-            z-index: 1;
-            padding: 0 24px;
-        }
+  <link rel="stylesheet" href="styles.css">
 
-        .wordmark {
-            font-family: 'EB Garamond', Georgia, serif;
-            font-optical-sizing: auto;
-            font-size: clamp(52px, 11vw, 104px);
-            font-weight: 500;
-            letter-spacing: -0.015em; /* negative tracking at display size */
-            line-height: 1.02;
-            color: var(--cream);
-        }
-
-        .rule {
-            width: 64px;
-            height: 1px;
-            background: var(--gold-dim);
-            margin: 44px auto;
-            transform-origin: center;
-        }
-
-        .tagline {
-            font-size: clamp(11px, 1.8vw, 14px);
-            font-weight: 300;
-            letter-spacing: 0.32em; /* wide positive tracking at caption size */
-            text-indent: 0.32em;   /* re-center: offsets trailing tracking space */
-            text-transform: uppercase;
-            color: var(--cream-dim);
-        }
-
-        .tagline .year {
-            color: var(--gold-dim);
-            font-weight: 400;
-        }
-
-        /* Staggered entrance — opacity + small rise, strong ease-out */
-        .wordmark, .rule, .tagline {
-            opacity: 0;
-            animation: rise 1.4s var(--enter) forwards;
-        }
-        .rule    { animation-name: draw; animation-delay: 0.25s; }
-        .tagline { animation-delay: 0.45s; }
-
-        @keyframes rise {
-            from { opacity: 0; transform: translateY(14px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* The rule draws outward from center instead of rising */
-        @keyframes draw {
-            from { opacity: 0; transform: scaleX(0.2); }
-            to   { opacity: 1; transform: scaleX(1); }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .wordmark, .rule, .tagline {
-                animation: fade 0.4s ease forwards;
-            }
-            @keyframes fade {
-                from { opacity: 0; }
-                to   { opacity: 1; }
-            }
-        }
-    </style>
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "GohnWood LLC",
+    "alternateName": "GohnWood",
+    "url": "https://gohnwood.com",
+    "logo": "https://gohnwood.com/assets/emblem.png",
+    "slogan": "Property. Intelligence. Standards.",
+    "description": "National real estate valuation, litigation support, expert witness testimony, appraisal review, and taxing-authority group valuation firm.",
+    "areaServed": "United States",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "The Chambers, 220 W. Gay Street, Suite 102",
+      "addressLocality": "West Chester",
+      "addressRegion": "PA",
+      "postalCode": "19380",
+      "addressCountry": "US"
+    },
+    "telephone": "+1-215-966-1545",
+    "founders": [
+      {
+        "@type": "Person",
+        "name": "Joshua W Wood JD MAI",
+        "jobTitle": "Founder & Principal",
+        "email": "josh@gohnwood.com"
+      },
+      {
+        "@type": "Person",
+        "name": "Justin C Gohn CRE MAI",
+        "jobTitle": "Founder & Principal",
+        "email": "justin@gohnwood.com"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
-    <div class="container">
-        <h1 class="wordmark">GohnWood</h1>
-        <div class="rule" aria-hidden="true"></div>
-        <p class="tagline"><span class="year">October 1, 2026</span></p>
+  <a href="#thesis" class="skip-link">Skip to content</a>
+
+  <!-- Scroll Progress Hairline -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Translucent Floating Navigation -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="#top" class="brand-lockup" aria-label="GohnWood Home">
+        <img src="assets/emblem.png" alt="" class="brand-emblem" width="30" height="30">
+        <span class="brand-wordmark">GOHNWOOD</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#thesis" class="nav-link" data-section="thesis">Thesis</a>
+        <a href="#method" class="nav-link" data-section="method">Method</a>
+        <a href="#practice" class="nav-link" data-section="practice">Practice</a>
+        <a href="#public-sector" class="nav-link" data-section="public-sector">Taxing Authorities</a>
+        <a href="#principals" class="nav-link" data-section="principals">Principals</a>
+        <a href="#contact" class="nav-link nav-cta" data-section="contact">Inquire</a>
+      </nav>
+
+      <button class="mobile-menu-btn" id="mobile-menu-btn" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span>
+        <span></span>
+      </button>
     </div>
+
+    <div class="mobile-nav" id="mobile-nav" hidden>
+      <a href="#thesis" class="mobile-nav-link">Thesis</a>
+      <a href="#method" class="mobile-nav-link">Method</a>
+      <a href="#practice" class="mobile-nav-link">Practice</a>
+      <a href="#public-sector" class="mobile-nav-link">Taxing Authorities</a>
+      <a href="#principals" class="mobile-nav-link">Principals</a>
+      <a href="#contact" class="mobile-nav-link">Inquire</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero" aria-label="Introduction">
+      <canvas id="hero-canvas" class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-vignette" aria-hidden="true"></div>
+
+      <div class="hero-content container">
+        <div class="hero-top-meta">
+          <span class="mono-label">AUSTIN &nbsp;|&nbsp; PHILADELPHIA</span>
+          <span class="mono-label hero-coords" id="hero-coords">NATIONWIDE VALUATION &amp; LITIGATION PRACTICE</span>
+        </div>
+
+        <div class="hero-center">
+          <div class="hero-emblem-wrap">
+            <img src="assets/emblem.png" alt="GohnWood Emblem" class="hero-emblem" width="104" height="104">
+          </div>
+
+          <h1 class="hero-wordmark">GOHNWOOD</h1>
+
+          <div class="gold-rule hero-rule" aria-hidden="true"></div>
+
+          <p class="hero-canon">PROPERTY. INTELLIGENCE. STANDARDS.</p>
+
+          <p class="hero-lead">
+            Real estate valuation, expert witness testimony, appraisal review, and front-end group valuation for taxing authorities. Built on governing law, market-wide evidence, and proprietary intelligence systems.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#contact" class="btn btn-primary">Discuss an Engagement</a>
+            <a href="#thesis" class="btn btn-ghost">Read the Standard</a>
+          </div>
+        </div>
+
+        <div class="hero-bottom-bar">
+          <div class="hero-metric">
+            <span class="metric-value">13</span>
+            <span class="metric-label">Active Certified States</span>
+          </div>
+          <div class="hero-metric">
+            <span class="metric-value">Trial-Tested</span>
+            <span class="metric-label">Federal &amp; State Testimony</span>
+          </div>
+          <div class="hero-metric">
+            <span class="metric-value">50+</span>
+            <span class="metric-label">Combined Years in Practice</span>
+          </div>
+          <div class="hero-metric">
+            <span class="metric-value">USPAP</span>
+            <span class="metric-label">Compliant</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 01: THESIS / THREE PILLARS -->
+    <section id="thesis" class="section section-paper">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-index">01 / THE STANDARD</span>
+          <h2 class="statement-headline">
+            They tell. We show.<br>
+            They say. We say why.<br>
+            <span class="statement-accent">Results you don't just trust, but understand.</span>
+          </h2>
+          <p class="section-intro">
+            GohnWood is changing how value opinions are developed, how they are reported, and how appraisers work with their clients. We do more than value property. We know what property is.
+          </p>
+        </div>
+
+        <div class="pillars-grid">
+          <article class="pillar-card reveal">
+            <div class="pillar-head">
+              <span class="mono-num">01</span>
+              <span class="pillar-proof">Passed the bar exam.</span>
+            </div>
+            <h3 class="pillar-title">Property</h3>
+            <p class="pillar-body">
+              Every engagement begins with governing law, property rights, statutes, and case law before a single number is modeled. Knowing what property is determines how it must be measured.
+            </p>
+          </article>
+
+          <article class="pillar-card reveal">
+            <div class="pillar-head">
+              <span class="mono-num">02</span>
+              <span class="pillar-proof">Wrote the code.</span>
+            </div>
+            <h3 class="pillar-title">Intelligence</h3>
+            <p class="pillar-body">
+              Data are not intelligence. Intelligence is evidence organized into justified conclusions at market scale. Proprietary intelligence pipelines accelerate extraction and modeling while principals own judgment.
+            </p>
+          </article>
+
+          <article class="pillar-card reveal">
+            <div class="pillar-head">
+              <span class="mono-num">03</span>
+              <span class="pillar-proof">Wrote the book.</span>
+            </div>
+            <h3 class="pillar-title">Standards</h3>
+            <p class="pillar-body">
+              Keeping the promise made when appraisal became a profession. Every conclusion is supported by reproducible evidence and explicit logic built to withstand cross-examination.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 02: INTERACTIVE METHOD SWITCHBOARD -->
+    <section id="method" class="section section-limestone">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-index">02 / HOW WE WORK</span>
+          <h2 class="section-title">A Better Theory of Inquiry</h2>
+          <p class="section-intro">
+            Most appraisals still pick a few comparables and rely on opaque adjustments. We model the market first, bridge mass-data depth with single-property rigor, and keep human principals in command of every judgment call.
+          </p>
+        </div>
+
+        <div class="method-shell reveal">
+          <div class="method-tabs" role="tablist" aria-label="GohnWood Methodology">
+            <button class="method-tab is-active" role="tab" aria-selected="true" aria-controls="method-panel" data-mode="market" type="button">
+              <span class="tab-num">01</span>
+              <span class="tab-text">
+                <strong>The Market Is the Subject</strong>
+                <span>Standards 1 &amp; 2 Litigation Rigor</span>
+              </span>
+            </button>
+
+            <button class="method-tab" role="tab" aria-selected="false" aria-controls="method-panel" data-mode="cohort" type="button">
+              <span class="tab-num">02</span>
+              <span class="tab-text">
+                <strong>Front-End Group Modeling</strong>
+                <span>Standards 5 &amp; 6 Mass Valuation</span>
+              </span>
+            </button>
+
+            <button class="method-tab" role="tab" aria-selected="false" aria-controls="method-panel" data-mode="bookends" type="button">
+              <span class="tab-num">03</span>
+              <span class="tab-text">
+                <strong>Humans Own the Bookends</strong>
+                <span>AI Infrastructure &amp; Verification</span>
+              </span>
+            </button>
+          </div>
+
+          <div class="method-stage" id="method-panel" role="tabpanel">
+            <div class="method-visual">
+              <div class="canvas-header">
+                <span class="mono-label" id="canvas-tag">MODEL 01 · EMPIRICAL MARKET DISTRIBUTION</span>
+                <span class="mono-label canvas-status" id="canvas-metric">N = 148 TRANSACTIONS</span>
+              </div>
+              <canvas id="method-canvas" class="method-canvas" width="640" height="340" aria-label="Interactive valuation methodology visualization"></canvas>
+              <div class="canvas-legend" id="canvas-legend"></div>
+            </div>
+
+            <div class="method-copy" id="method-copy">
+              <span class="mono-label method-eyebrow" id="method-eyebrow">PRINCIPLE</span>
+              <h3 class="method-heading" id="method-heading">A few comps is a candle. We bring the whole market.</h3>
+              <p class="method-lead" id="method-lead">
+                Appraisal is not the isolated measurement of a building. It is the disciplined interpretation of a market, with the subject property posed as a query to that market.
+              </p>
+              <ul class="method-points" id="method-points">
+                <li>Pre-model market distributions before selecting comparables, narrowing judgment to what the evidence supports.</li>
+                <li>Corroborate facts across independent documentary records so every input is reproducible on cross-examination.</li>
+                <li>Deliver concise, table-forward reports where every adjustment is transparent and earned by convergence.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 03: PRACTICE AREAS -->
+    <section id="practice" class="section section-paper">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-index">03 / PRACTICE AREAS</span>
+          <h2 class="section-title">Built for High-Stakes Valuation</h2>
+          <p class="section-intro">
+            Both principals work directly on complex engagements nationwide. Clients retain GohnWood when the property rights are atypical, the data are messy, or the conclusion will be tested in court.
+          </p>
+        </div>
+
+        <div class="practice-grid">
+          <article class="practice-item reveal">
+            <span class="mono-num">01</span>
+            <h3>Complex Commercial Appraisals</h3>
+            <p>
+              Market value, Texas Equal and Uniform, condemnation and eminent domain, conservation and historic easements, ground-lease resets, title claims, estate and gift tax, marital dissolution, and federal Yellow Book assignments.
+            </p>
+            <span class="practice-meta">USPAP Standards 1 &amp; 2</span>
+          </article>
+
+          <article class="practice-item reveal">
+            <span class="mono-num">02</span>
+            <h3>Litigation Support &amp; Expert Testimony</h3>
+            <p>
+              Federal and state court testimony, county boards of view, assessment appeal hearings, deposition preparation, and cross-examination support across property tax, condemnation, and commercial disputes.
+            </p>
+            <span class="practice-meta">Federal &amp; State Courts &middot; Arbitration</span>
+          </article>
+
+          <article class="practice-item reveal">
+            <span class="mono-num">03</span>
+            <h3>Appraisal Review &amp; Rebuttal</h3>
+            <p>
+              Independent USPAP Standards 3 and 4 reviews, with or without an independent value opinion. We audit opposing appraisals for legal framing errors, unsupported adjustments, and evidentiary gaps.
+            </p>
+            <span class="practice-meta">USPAP Standards 3 &amp; 4</span>
+          </article>
+
+          <article class="practice-item reveal">
+            <span class="mono-num">04</span>
+            <h3>Taxing Authority &amp; Group Valuation</h3>
+            <p>
+              Front-end valuation of entire commercial property cohorts for appraisal districts, school districts, and municipalities. Built for equal-and-uniform consistency on the roll and defensibility at trial.
+            </p>
+            <span class="practice-meta">USPAP Standards 5 &amp; 6</span>
+          </article>
+
+          <article class="practice-item reveal">
+            <span class="mono-num">05</span>
+            <h3>Consulting, Benchmarks &amp; AI Advisory</h3>
+            <p>
+              Empirical cap-rate and operating-expense studies, ground-rent analyses, feasibility studies, and privacy-locked AI workflow architecture for assessment offices and valuation teams.
+            </p>
+            <span class="practice-meta">Empirical Studies &amp; Systems</span>
+          </article>
+
+          <article class="practice-item reveal">
+            <span class="mono-num">06</span>
+            <h3>Arbitration &amp; Dispute Resolution</h3>
+            <p>
+              Neutral arbitration for property-tax and commercial valuation disputes, drawing on 18 years of service on the American Arbitration Association Panel of Neutrals.
+            </p>
+            <span class="practice-meta">AAA Panel of Neutrals</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 04: PUBLIC SECTOR & TAXING AUTHORITIES (DARK CHARCOAL BAND) -->
+    <section id="public-sector" class="section section-charcoal">
+      <div class="container">
+        <div class="public-grid">
+          <div class="public-left reveal">
+            <span class="section-index section-index-gold">04 / PUBLIC SECTOR &amp; MASS VALUATION</span>
+            <h2 class="section-title section-title-light">
+              Better on the Front End.<br>
+              Stronger on the Back End.
+            </h2>
+            <p class="public-lead">
+              Taxing authorities face a structural divide: they must value thousands of commercial properties at scale each year, then defend individual assessments one by one in litigation.
+            </p>
+            <p class="public-body">
+              GohnWood bridges that divide. We bring single-property commercial rigor upstream into front-end group valuations, and we bring mass-appraisal data depth into individual litigation defense.
+            </p>
+
+            <div class="non-advocacy-box">
+              <span class="mono-label">INDEPENDENCE</span>
+              <p>
+                We are not advocates. GohnWood serves both taxing authorities and property owners under governing law, with strict conflict screening across every engagement.
+              </p>
+            </div>
+          </div>
+
+          <div class="public-right">
+            <div class="public-card reveal">
+              <span class="mono-num">A</span>
+              <div>
+                <h3>Front-End Commercial Cohort Valuation</h3>
+                <p>
+                  Full-county and district-wide valuation models for commercial cohorts including hotels, multifamily, retail, and industrial assets under USPAP Standards 5 and 6. Designed to align market value with equal-and-uniform equity before notices issue.
+                </p>
+              </div>
+            </div>
+
+            <div class="public-card reveal">
+              <span class="mono-num">B</span>
+              <div>
+                <h3>Granular Benchmark Studies</h3>
+                <p>
+                  Coarse third-party surveys assign three generic cap rates to dozens of distinct properties. We build empirical, sensitivity-tested cap-rate and operating-expense benchmarks directly from verified market datasets.
+                </p>
+              </div>
+            </div>
+
+            <div class="public-card reveal">
+              <span class="mono-num">C</span>
+              <div>
+                <h3>Assessment Office AI &amp; Workflow Advisory</h3>
+                <p>
+                  We help public assessment offices deploy privacy-locked, policy-compliant AI workflows to ingest owner operating statements and rent rolls, clean property records, retain institutional memory across staff turnover, and close recurring appeal gaps.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 05: PRINCIPALS -->
+    <section id="principals" class="section section-paper">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-index">05 / PRINCIPALS</span>
+          <h2 class="section-title">Two Disciplines. One Firm.</h2>
+          <p class="section-intro">
+            GohnWood pairs deep legal and valuation-standards scholarship with hands-on AI systems engineering. Every major assignment draws directly on both founders.
+          </p>
+        </div>
+
+        <div class="principals-grid">
+          <!-- JOSHUA W WOOD -->
+          <article class="principal-card reveal">
+            <div class="principal-top">
+              <div class="portrait-frame">
+                <img src="assets/josh-wood.jpg" alt="Joshua W Wood JD MAI" width="400" height="400" loading="lazy">
+              </div>
+              <div class="principal-identity">
+                <span class="mono-label">FOUNDER &amp; PRINCIPAL</span>
+                <h3 class="principal-name">Joshua W Wood <span class="creds">JD MAI</span></h3>
+                <p class="principal-focus">Standards, Property Law &amp; Litigation</p>
+                <div class="principal-direct">
+                  <a href="mailto:josh@gohnwood.com">josh@gohnwood.com</a>
+                  <span aria-hidden="true">&middot;</span>
+                  <a href="tel:5203903878">520.390.3878</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="principal-bio">
+              <p>
+                Joshua leads GohnWood's litigation, arbitration, and valuation-standards practice. With 28 years in commercial real estate valuation, he specializes in the intersection of appraisal theory, property rights, and governing law.
+              </p>
+              <p>
+                He has qualified as an expert witness more than 50 times in federal court, state courts across Texas and Arizona, and arbitration. He has served on the American Arbitration Association Panel of Neutrals since 2008 and is a contributing author to <em>The Appraisal of Real Estate</em> (15th and 16th editions) and <em>The Dictionary of Real Estate Appraisal</em>.
+              </p>
+            </div>
+
+            <ul class="credential-highlights">
+              <li><strong>Designations:</strong> MAI, AI-GRS, AQB Certified USPAP Instructor</li>
+              <li><strong>Education:</strong> J.D., <em>cum laude</em>, University of Arizona; M.A., Philosophy, Rutgers; B.A., <em>cum laude</em>, Davidson College</li>
+              <li><strong>Bar &amp; Arbitration:</strong> State Bar of Arizona (inactive); AAA Panel of Neutrals (since 2008)</li>
+              <li><strong>Leadership:</strong> Appraisal Institute Body of Knowledge Committee; former TALCB Peer Investigative Committee; AI and IRWA instructor</li>
+            </ul>
+
+            <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="josh-licenses">
+              <span>View 12 State Licenses &amp; Notable Assignments</span>
+              <span class="toggle-icon" aria-hidden="true">+</span>
+            </button>
+
+            <div class="drawer-content" id="josh-licenses" hidden>
+              <div class="drawer-inner">
+                <h4>Active Certified General Licenses (12 States)</h4>
+                <div class="license-grid">
+                  <span><strong>TX</strong> 1380361-CG</span>
+                  <span><strong>AZ</strong> 31218</span>
+                  <span><strong>PA</strong> GA004956</span>
+                  <span><strong>NJ</strong> 42RG00305300</span>
+                  <span><strong>NY</strong> 46000054973</span>
+                  <span><strong>FL</strong> RZ4736</span>
+                  <span><strong>LA</strong> APR.04280-CGA</span>
+                  <span><strong>MI</strong> 1205078173</span>
+                  <span><strong>NC</strong> A8940</span>
+                  <span><strong>NM</strong> REA-2024-0189</span>
+                  <span><strong>SC</strong> 8400 CG</span>
+                  <span><strong>VA</strong> 4001018772</span>
+                </div>
+                <h4>Representative Complex Assets</h4>
+                <p class="drawer-note">
+                  1,000-mile telecommunications right of way across five states; underground petrochemical storage on a ground lease; defense contractor missile facility; Indian reservation land inside a major metro; landfill ad valorem valuation; bilateral monopoly and right-of-reverter disputes.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- JUSTIN C GOHN -->
+          <article class="principal-card reveal">
+            <div class="principal-top">
+              <div class="portrait-frame">
+                <img src="assets/justin-gohn.jpg" alt="Justin C Gohn CRE MAI" width="400" height="400" loading="lazy">
+              </div>
+              <div class="principal-identity">
+                <span class="mono-label">FOUNDER &amp; PRINCIPAL</span>
+                <h3 class="principal-name">Justin C Gohn <span class="creds">CRE MAI</span></h3>
+                <p class="principal-focus">Operations, AI Architecture &amp; Litigation</p>
+                <div class="principal-direct">
+                  <a href="mailto:justin@gohnwood.com">justin@gohnwood.com</a>
+                  <span aria-hidden="true">&middot;</span>
+                  <a href="tel:2159661545">215.966.1545</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="principal-bio">
+              <p>
+                Justin leads GohnWood's operations, proprietary AI infrastructure, and Mid-Atlantic litigation practice. Entering commercial appraisal in 2002, he has spent over two decades valuing complex commercial assets for tax appeals, condemnation, easements, estates, and disputes.
+              </p>
+              <p>
+                He is one of the profession's foremost builders of agentic AI workflows for valuation. He has delivered keynote addresses and featured presentations at national valuation and property-tax conferences, including the Appraisal Institute, IPT, ABA/IPT, ASFMRA, American Property Tax Counsel, and Temple University's Fox School of Business.
+              </p>
+            </div>
+
+            <ul class="credential-highlights">
+              <li><strong>Designations:</strong> CRE, MAI, SRA; Member, IRWA</li>
+              <li><strong>Education:</strong> B.A., English Literature, <em>cum laude</em>, Temple University</li>
+              <li><strong>Leadership:</strong> Former Third Regional Director, Appraisal Institute National Board of Directors; Past President, Philadelphia Metropolitan Chapter (2025)</li>
+              <li><strong>Publication:</strong> "The Research Assistant of Your Dreams," <em>Valuation</em> (Appraisal Institute, 2025)</li>
+            </ul>
+
+            <button class="drawer-toggle" type="button" aria-expanded="false" aria-controls="justin-licenses">
+              <span>View State Licenses &amp; Testimony Venues</span>
+              <span class="toggle-icon" aria-hidden="true">+</span>
+            </button>
+
+            <div class="drawer-content" id="justin-licenses" hidden>
+              <div class="drawer-inner">
+                <h4>Active Certified General Licenses</h4>
+                <div class="license-grid">
+                  <span><strong>PA</strong> GA003659</span>
+                  <span><strong>NJ</strong> 42RG00287100</span>
+                  <span><strong>DE</strong> X1-0010801</span>
+                  <span><strong>NY</strong> 46000054999</span>
+                  <span><strong>TX</strong> Reciprocity Pending</span>
+                </div>
+                <h4>Qualified Expert Witness Venues</h4>
+                <p class="drawer-note">
+                  Pennsylvania Courts of Common Pleas (Philadelphia, Bucks, and Delaware Counties); Boards of View (Philadelphia, Montgomery, and Delaware Counties); Delaware County arbitration program; Philadelphia Board of Revision of Taxes; county boards of assessment appeals across Pennsylvania.
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 06: CONTACT & ENGAGEMENT -->
+    <section id="contact" class="section section-limestone">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="contact-info reveal">
+            <span class="section-index">06 / CONTACT</span>
+            <h2 class="section-title">Start a Conversation</h2>
+            <p class="contact-lead">
+              Based in Austin and Philadelphia, taking commercial valuation, litigation, review, and taxing-authority engagements nationwide.
+            </p>
+
+            <div class="contact-blocks">
+              <div class="contact-block">
+                <span class="mono-label">DIRECT TO PRINCIPALS</span>
+                <p>
+                  <strong>Joshua W Wood JD MAI</strong><br>
+                  <a href="mailto:josh@gohnwood.com">josh@gohnwood.com</a> &nbsp;&middot;&nbsp; <a href="tel:5203903878">520.390.3878</a>
+                </p>
+                <p>
+                  <strong>Justin C Gohn CRE MAI</strong><br>
+                  <a href="mailto:justin@gohnwood.com">justin@gohnwood.com</a> &nbsp;&middot;&nbsp; <a href="tel:2159661545">215.966.1545</a>
+                </p>
+              </div>
+
+              <div class="contact-block">
+                <span class="mono-label">MAILING ADDRESS</span>
+                <p>
+                  GohnWood<br>
+                  The Chambers<br>
+                  220 W. Gay Street, Suite 102<br>
+                  West Chester, PA 19380
+                </p>
+              </div>
+
+              <div class="contact-block">
+                <span class="mono-label">NATIONAL COVERAGE</span>
+                <p>
+                  Active Certified General licensure across AZ, DE, FL, LA, MI, NC, NJ, NM, NY, PA, SC, TX, and VA, with temporary practice permits nationwide.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="inquiry-card reveal">
+            <div class="inquiry-head">
+              <span class="mono-label">ENGAGEMENT BRIEF</span>
+              <h3>Prepare an Inquiry</h3>
+              <p>Select your matter type to open a pre-addressed email to the principals or copy a formatted brief.</p>
+            </div>
+
+            <form id="inquiry-form" class="inquiry-form" novalidate>
+              <div class="form-group">
+                <label for="matter-type">Matter Type</label>
+                <select id="matter-type" name="matterType">
+                  <option value="Litigation Support / Expert Witness">Litigation Support / Expert Witness</option>
+                  <option value="Taxing Authority / Front-End Group Valuation">Taxing Authority / Front-End Group Valuation</option>
+                  <option value="Appraisal">Appraisal</option>
+                  <option value="Appraisal Review / Rebuttal (Standards 3 & 4)">Appraisal Review / Rebuttal (Standards 3 &amp; 4)</option>
+                  <option value="Valuation Consulting / Benchmark Study / AI Advisory">Valuation Consulting / Benchmark Study / AI Advisory</option>
+                  <option value="Arbitration / Dispute Resolution">Arbitration / Dispute Resolution</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="sender-name">Your Name</label>
+                  <input type="text" id="sender-name" name="name" placeholder="Name and firm or agency">
+                </div>
+                <div class="form-group">
+                  <label for="jurisdiction">Jurisdiction / State</label>
+                  <input type="text" id="jurisdiction" name="jurisdiction" placeholder="e.g., Travis County, TX">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="recipient">Route To</label>
+                <select id="recipient" name="recipient">
+                  <option value="both">Both Principals (justin@gohnwood.com, josh@gohnwood.com)</option>
+                  <option value="josh">Joshua W Wood (josh@gohnwood.com)</option>
+                  <option value="justin">Justin C Gohn (justin@gohnwood.com)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="matter-summary">Brief Overview</label>
+                <textarea id="matter-summary" name="summary" rows="3" placeholder="Property type, scope, timeline, or conflict-check parties"></textarea>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-dark">Open Email Draft</button>
+                <button type="button" id="copy-brief-btn" class="btn btn-outline">Copy Brief</button>
+              </div>
+              <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="assets/emblem.png" alt="GohnWood Emblem" width="44" height="44">
+        <div>
+          <span class="footer-wordmark">GOHNWOOD</span>
+          <span class="footer-tagline">PROPERTY. INTELLIGENCE. STANDARDS.</span>
+        </div>
+      </div>
+
+      <div class="footer-legal">
+        <span>Austin &nbsp;|&nbsp; Philadelphia</span>
+        <span aria-hidden="true">&middot;</span>
+        <span>&copy; 2026 GohnWood LLC</span>
+        <span aria-hidden="true">&middot;</span>
+        <a href="https://gohnwood.com">gohnwood.com</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js" defer></script>
 </body>
 </html>
